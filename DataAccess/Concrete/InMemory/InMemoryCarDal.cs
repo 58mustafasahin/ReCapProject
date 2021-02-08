@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,11 @@ namespace DataAccess.Concrete.InMemory
         public InMemoryCarDal()
         {
             _cars = new List<Car> {
-                new Car{Id = 1, BrandId = 1, ColorId = 1, ModelYear = "2007", DailyPrice = 80000, Descriptions = "Grey Ford Focus Manual Diesel"},
-                new Car{Id = 2, BrandId = 2, ColorId = 2, ModelYear = "2010", DailyPrice = 125000, Descriptions = "White Peugeot 301 Manual Diesel"},
-                new Car{Id = 3, BrandId = 3, ColorId = 3, ModelYear = "2021", DailyPrice = 500000, Descriptions = "Red Hyundai Tucson Otomatic Hybrid"},
-                new Car{Id = 4, BrandId = 4, ColorId = 4, ModelYear = "2012", DailyPrice = 110000, Descriptions = "Black Toyota Corolla Manual Fuel Gasoline"},
-                new Car{Id = 5, BrandId = 5, ColorId = 5, ModelYear = "2020", DailyPrice = 270000, Descriptions = "Blue Opel Astra Otomatic Hybrid"},
+                new Car{Id = 1, BrandId = 1, ColorId = 1, ModelYear = "2007", DailyPrice = 80, Descriptions = "Grey Ford Focus Manual Diesel"},
+                new Car{Id = 2, BrandId = 2, ColorId = 2, ModelYear = "2010", DailyPrice = 125, Descriptions = "White Peugeot 301 Manual Diesel"},
+                new Car{Id = 3, BrandId = 3, ColorId = 3, ModelYear = "2021", DailyPrice = 500, Descriptions = "Red Hyundai Tucson Otomatic Hybrid"},
+                new Car{Id = 4, BrandId = 4, ColorId = 4, ModelYear = "2012", DailyPrice = 110, Descriptions = "Black Toyota Corolla Manual Fuel Gasoline"},
+                new Car{Id = 5, BrandId = 5, ColorId = 5, ModelYear = "2020", DailyPrice = 270, Descriptions = "Blue Opel Astra Otomatic Hybrid"},
 
             };
         }
@@ -54,6 +55,11 @@ namespace DataAccess.Concrete.InMemory
         {
             return _cars.Where(c => c.Id == car.Id).ToList();
 
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Car car)
