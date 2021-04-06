@@ -1,4 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.AutoFac.Validation;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -9,38 +14,51 @@ namespace Business.Concrete
 {
     public class ColorManager : IColorService
     {
-        IColorDal _colorDal;
+        readonly IColorDal _colorDal;
+
         public ColorManager(IColorDal colorDal)
         {
             _colorDal = colorDal;
         }
-        public void Add(Color color)
+
+        [ValidationAspect(typeof(ColorValidator))]
+        public IResult Add(Color color)
         {
+
             _colorDal.Add(color);
-            Console.WriteLine("Car's color added");
+
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
-            Console.WriteLine("Car's color deleted");
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
         public List<Color> GetAll()
         {
-            Console.WriteLine("All Car's Color");
             return _colorDal.GetAll();
         }
 
-        public Color GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            return _colorDal.Get(cl => cl.ColorId == id);
+
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == id));
+
         }
 
-        public void Update(Color color)
+        [ValidationAspect(typeof(ColorValidator))]
+        public IResult Update(Color color)
         {
+
             _colorDal.Update(color);
-            Console.WriteLine("Car's color updated");
+            return new SuccessResult(Messages.ColorUpdated);
+        }
+
+        IDataResult<List<Color>> IColorService.GetAll()
+        {
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
     }
 }
